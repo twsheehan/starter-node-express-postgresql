@@ -1,12 +1,12 @@
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+
 const categoriesService = require("./categories.service");
 
 async function list(req, res, next) {
-  categoriesService
-    .list()
-    .then((data) => res.json({ data }))
-    .catch(next);
+  const data = await categoriesService.list();
+  res.json({ data });
 }
 
 module.exports = {
-  list: [list],
+  list: [asyncErrorBoundary(list)],
 };
